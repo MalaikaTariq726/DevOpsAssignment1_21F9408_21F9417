@@ -1,0 +1,180 @@
+.viewprojcontainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(69, 126, 249, 0.25),
+    0 10px 10px rgba(69, 126, 249, 0.22);
+  overflow: hidden;
+  width: auto;
+  min-height: 73%;
+  padding-top: 27px;
+  position: fixed;
+  left: 300px;
+  right: 70px;
+  top: 125px;
+  bottom: 70px;
+}
+
+.viewprojcontainer .projDetails,
+.viewprojcontainer .editProfileDetails {
+  grid-column: 1 / 2;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.viewprojcontainer h1.viewprojheading {
+  font-weight: bold;
+  margin-bottom: 30px;
+  margin-top: 0;
+  color: #4b84fe;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.viewprojcontainer .viewproj {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.viewprojcontainer .projToggle {
+  grid-column: 2 / 3;
+}
+
+.viewprojcontainer .toggleCheckbox {
+  display: none;
+}
+
+.viewprojcontainer .toggleContainer {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: fit-content;
+  border: 3px solid #4b84fe;
+  border-radius: 20px;
+  background: #4b84fe;
+  font-weight: bold;
+  color: #4b84fe;
+  cursor: pointer;
+}
+
+.viewprojcontainer .toggleContainer::before {
+  content: '';
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  left: 0%;
+  border-radius: 20px;
+  background: white;
+  transition: all 0.3s;
+}
+
+.viewprojcontainer .toggleContainer div {
+  padding: 6px;
+  text-align: center;
+  z-index: 1;
+}
+
+.viewprojcontainer .toggleCheckbox:checked+.toggleContainer::before {
+  left: 50%;
+}
+
+.viewprojcontainer .toggleCheckbox:checked+.toggleContainer div:first-child {
+  color: white;
+  transition: color 0.3s;
+}
+
+.viewprojcontainer .toggleCheckbox:checked+.toggleContainer div:last-child {
+  color: #4b84fe;
+  transition: color 0.3s;
+}
+
+.viewprojcontainer .toggleCheckbox+.toggleContainer div:first-child {
+  color: #4b84fe;
+  transition: color 0.3s;
+}
+
+.viewprojcontainer .toggleCheckbox+.toggleContainer div:last-child {
+  color: white;
+  transition: color 0.3s;
+}
+
+.viewprojcontainer table {
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+  width: 80%;
+  margin-top: 2%;
+}
+
+.viewprojcontainer th,
+.viewprojcontainer td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.viewprojcontainer th {
+  background-color: #f2f2f2;
+}
+
+.viewprojcontainer label {
+  color: #4b84fe;
+  text-align: left;
+  justify-content: start;
+}
+
+.viewprojcontainer input,
+.viewprojcontainer textarea {
+  width: 92%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+}
+
+.viewprojcontainer textarea {
+  height: 147px;
+  resize: none;
+}
+
+.viewprojcontainer .projDetails input,
+.viewprojcontainer .projDetails textarea {
+  background-color: #fff;
+}
+
+.viewprojcontainer input:focus,
+.viewprojcontainer textarea:focus {
+  outline: none;
+}
+
+.viewprojcontainer .editProfileDetails input,
+.viewprojcontainer .editProfileDetails textarea {
+  background-color: #eee;
+}
+
+.viewprojcontainer .editProjBtn {
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid #4b84fe;
+  background: #4b84fe;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: 100px;
+  margin-top: 20px;
+}
+
+.viewprojcontainer .editProjBtn:hover {
+  border: 2px solid rgb(69, 126, 249);
+  color: rgb(69, 126, 249);
+  background: #fff;
+  cursor: pointer;
+  box-shadow: 0 15px 25px rgba(69, 126, 249, 0.3);
+}

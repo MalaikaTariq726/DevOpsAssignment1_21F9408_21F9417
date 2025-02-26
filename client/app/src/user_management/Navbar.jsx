@@ -1,9 +1,20 @@
-
+import { useState, useEffect } from 'react';
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink,useLocation } from "react-router-dom";
 import "../CSS/navbar.css";
 
 const Navbar = () => {
+  const location = useLocation();
+  const [showNavbar, setShowNavbar] = useState(true);
+
+  useEffect(() => {
+    setShowNavbar(!location.pathname.includes('/studdash') && !location.pathname.includes('/mentdash') 
+    && !location.pathname.includes('/admindash'));
+  }, [location.pathname]);
+
+  if (!showNavbar) {
+    return null;
+  }
  return (
   
      <nav className="nav">
@@ -38,7 +49,7 @@ const Navbar = () => {
            </li>
           
            <li className="nav__item">
-             <NavLink to="/signin" className="nav__link nav__cta">
+             <NavLink to="/signin" className="nav__link">
                Sign In
              </NavLink>
            </li>

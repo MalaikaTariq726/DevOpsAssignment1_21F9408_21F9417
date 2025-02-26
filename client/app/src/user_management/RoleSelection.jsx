@@ -18,7 +18,7 @@ const RoleSelection = () => {
 
   const handleRole = () => {
     updateRole({ role, email });
-    navigate("/home");
+    navigate("/signin");
   };
 
   return (

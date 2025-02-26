@@ -15,6 +15,10 @@ const login = async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
 
+    if (user?.status !== "Approved") {
+      return res.status(400).json({ message: "User not approved yet." });
+    }
+
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: "Incorrect Password!" });
@@ -23,8 +27,10 @@ const login = async (req, res) => {
     const token = jwt.sign({ email: user.email, id: user._id }, JWT_SECRET, {
       expiresIn: JWT_EXPIRATION,
     });
-
-    res.status(200).json({ result: user, token });
+    res.cookie("token", token);
+    res
+      .status(200)
+      .json({ message: "Logged in successfully.", result: user, token });
   } catch (error) {
     console.error("Error during login:", error);
     res
@@ -36,21 +42,26 @@ const login = async (req, res) => {
 const signup = async (req, res) => {
   const { email, password, role, name } = req.body;
   try {
+    let stat = "Approved";
     const existingUser = await userdb.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+    if (role === "Mentor") {
+      stat = "Pending";
+    }
     const newUser = new userdb({
-      email,
+      email: email,
       password: hashedPassword,
-      role,
-      name,
+      role: role,
+      name: name,
+      status: stat,
     });
     await newUser.save();
     return res
       .status(200)
-      .json({ message: "User Accout Created Successfully" });
+      .json({ message: "User Account Created Successfully" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });
@@ -60,13 +71,19 @@ const signup = async (req, res) => {
 const updateRole = async (req, res) => {
   const { role, email } = req.body;
   try {
+    let stat = "Approved";
     const user = await userdb.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
-    user.role = role;
 
+    if (role === "Mentor") {
+      stat = "Pending";
+    }
+
+    user.role = role;
+    user.status = stat;
     const updatedUser = await user.save();
 
     return res.status(200).json({ result: updatedUser });
@@ -97,7 +114,50 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-export { forgotPassword as forgotPassword }
+const logout = (req, res, next) => {
+  res.clearCookie("token");
+  req.logout(function (err) {
+    if (err) {
+      console.log(err);
+      return next(err);
+    }
+    return res.json({ logout: true });
+  });
+};
+const verifyToken = (req, res) => {
+  let token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ message: "Token not found" });
+  }
+  try {
+    jwt.verify(token, JWT_SECRET);
+    return res.status(200).json({ message: "Token is valid", status: true });
+  } catch (error) {
+    return res
+      .status(401)
+      .json({ message: "Token expired or invalid", status: false });
+  }
+};
+
+const getUser = async (req, res) => {
+  const { email } = req.query;
+  try {
+    const user = await userdb.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+    return res.status(200).json({ user });
+  } catch (error) {
+    console.error("Error getting user: ", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export { getUser as getUser };
+export { verifyToken as verifyToken };
+export { logout as logout };
+export { forgotPassword as forgotPassword };
 export { updateRole as updateRole };
 export { signup as signup };
 export { login as login };

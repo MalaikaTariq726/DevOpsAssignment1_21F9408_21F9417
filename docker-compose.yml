@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./
+      dockerfile: ./backend/Dockerfile
+    ports:
+      - "7373:7373"
+    volumes:
+      - ./backend:/app  # Bind mount for hot reloading
+      - /app/node_modules  # Prevents overwriting node_modules
+    environment:
+      - NODE_ENV=development
+    command: ["npx", "nodemon", "index.js"]
+    depends_on:
+      - database
+
+  frontend:
+    build:
+      context: ./client/app
+      dockerfile: Dockerfile  # Adjusted path if frontend is inside client/app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client/app:/app  # Bind mount for hot reloading
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: ["npm", "start"]
+
+  database:
+    image: mongo:latest
+    container_name: mongo-db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

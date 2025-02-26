@@ -1,0 +1,79 @@
+.projcontainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(69, 126, 249, 0.25),
+    0 10px 10px rgba(69, 126, 249, 0.22);
+  overflow: hidden;
+  width: auto;
+  min-height: 73%;
+  padding-top: 30px;
+  position: fixed;
+  left: 300px;
+  right: 70px;
+  top: 125px;
+  bottom: 70px;
+  align-items: center;
+}
+
+.projcontainer h1.projheading {
+  font-weight: bold;
+  margin-bottom: 30px;
+  margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  color: #4b84fe;
+}
+
+.projcontainer .rowBtn {
+  background: #4b84fe;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+.projcontainer .rowBtn:hover{
+  border: rgb(69, 126, 249);
+  color: rgb(69, 126, 249);
+  background: #fff;
+  cursor: pointer;
+  box-shadow: 0 15px 25px rgba(69, 126, 249, 0.3);
+}
+
+.projcontainer .project-table {
+  border-collapse: collapse;
+  width: 80%;
+}
+
+.projcontainer .project-table th,
+.projcontainer .project-table td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.projcontainer .project-table th {
+  background-color: #f2f2f2;
+
+}
+
+.projcontainer .prevnext {
+  border-radius: 12px;
+  width: 60px;
+  height: 40px;
+  border: none;
+  background-color: #4b84fe;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 10px 2px;
+  font-weight: bold;
+  float: left;
+}

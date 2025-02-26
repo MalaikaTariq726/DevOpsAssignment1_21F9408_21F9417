@@ -21,7 +21,7 @@ export default function configurePassport(passport) {
         try {
           let isUserExist = true;
           let user = await userdb.findOne({ googleId: profile.id });
-
+          
           const hashedPassword = await bcrypt.hashSync(profile.id, 10);
 
           if (!user) {
@@ -30,17 +30,34 @@ export default function configurePassport(passport) {
               name: profile.displayName,
               email: profile.emails[0].value,
               password: hashedPassword,
+              image: profile.photos[0].value,
             });
 
             await user.save();
             isUserExist = false;
-          }
-
+          } 
+          
           const token = jwt.sign(
             { email: user.email, id: user._id },
             process.env.JWT_SECRET,
             { expiresIn: "1m" }
           );
+
+          if(isUserExist) {
+            let getRole = user.role;
+            user = {
+              name: profile.displayName,
+              email: profile.emails[0].value,
+              image: profile.photos[0].value,
+              role: getRole
+            };
+          } else {
+            user = {
+              name: profile.displayName,
+              email: profile.emails[0].value,
+              image: profile.photos[0].value
+            };
+          }
 
           done(null, { user, token, isUserExist });
         } catch (error) {

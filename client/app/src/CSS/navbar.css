@@ -12,16 +12,12 @@
   --z-fixed: 100;
 }
 
-.nav.container {
-  height: auto;
-}
-
 .heading3 {
   background: linear-gradient(to right, rgb(69, 126, 249), rgb(61, 61, 244));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-top: 10px;
-  margin-right: 840px;
+  margin-top: 9px;
+  margin-right: 868px;
   font-size: 25px;
 }
 
@@ -35,6 +31,7 @@
   display: flex;
   justify-content: space-between;
   padding-top: 1rem;
+  box-shadow: 0 14px 28px rgba(69, 126, 249, 0.2)
 }
 
 .imgLogo {
@@ -60,6 +57,7 @@
   position: relative;
   transition: color 0.4s;
   margin-top: 2%;
+  text-decoration: none;
 }
 
 .nav__link::after {

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "../CSS/login.css";
+import axios from "axios";
 import "@fortawesome/fontawesome-free/css/all.css";
 import { useUser } from "../services/userService";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Login = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
   const { loginUser, signupUser } = useUser();
   const [role, setRole] = useState();
@@ -13,7 +15,14 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  axios.defaults.withCredentials = true;
   useEffect(() => {
+    Cookies.remove("token");
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get("error");
+    if (error) {
+      alert(error);
+    }
     const signUpButton = document.getElementById("signUp");
     const signInButton = document.getElementById("signIn");
     const container = document.getElementById("container");
@@ -41,22 +50,36 @@ const Login = () => {
     signupUser({ email, password, role, name });
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = (event) => {
+    event.preventDefault();
     window.open("http://localhost:7373/auth/google/callback", "_self");
-  };
-
-  const handleLogin = () => {
-    loginUser({ email, password });
-    navigate("/home");
   };
 
   const handleForgotPassword = () => {
     navigate("/forgot");
   };
 
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      let res = await loginUser({ email, password });
+      if (res && res.role === "Mentor") {
+        navigate(`/mentdash?email=${email}`);
+      } else if (res && res.role === "Student") {
+        navigate(`/studdash?email=${email}`);
+      } else if (res && res.role === "Admin") {
+        navigate(`/admindash?email=${email}`);
+      } else {
+        alert("Unable to login");
+      }
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
+
   return (
     <>
-      <div className="container" id="container">
+      <div className="main-container" id="container">
         <div
           className={`form-container ${
             isSignUp ? "sign-up-container" : "sign-in-container"
@@ -153,7 +176,9 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                <a href="#" onClick={handleForgotPassword}>Forgot your password?</a>
+                <a href="#" onClick={handleForgotPassword}>
+                  Forgot your password?
+                </a>
                 <button className="loginBtn" onClick={handleLogin}>
                   Sign In
                 </button>

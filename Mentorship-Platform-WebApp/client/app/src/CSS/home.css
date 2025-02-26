@@ -1,0 +1,75 @@
+
+body{
+    background-color: #ffffff;
+}
+.home {
+    background-image: url("../images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 45%;
+    height: 100%;
+    position: fixed;
+    top: 8%;
+    right: 0;
+    overflow: hidden;
+    margin-right: 2%;
+}
+
+@media screen and (max-width: 768px) {
+    .home {
+        width: 45%;
+        right: 0;
+        left: auto;
+    }
+}
+
+.homeinfo {
+    text-align: left;
+    color: #333;
+    width: 50%;
+    height: 100%;
+    position: fixed;
+    top: 21%;
+    margin-left: 2%;
+    left:0;
+}
+
+
+.homeinfo h1 {
+    font-size: 10px; 
+}
+
+.homeinfo h1 span {
+    background: linear-gradient(to right, rgb(69, 126, 249), rgb(61, 61, 244));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size:76px;
+}
+
+.homeinfo p {
+    color: #333;
+    font-size: medium;
+}
+.homeinfo button.button {
+    background: linear-gradient(to right, rgb(69, 126, 249), rgb(61, 61, 244));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid transparent;
+    border-image: linear-gradient(to right, rgb(69, 126, 249), rgb(61, 61, 244));
+    border-image-slice: 1;
+    cursor: pointer;
+    overflow: hidden;
+    position: fixed;
+    width: 15%;
+    top: 88%;
+}
+
+
+.homeinfo button.button:hover {
+    background-color: transparent; 
+    border-color: rgb(61, 61, 244); 
+}

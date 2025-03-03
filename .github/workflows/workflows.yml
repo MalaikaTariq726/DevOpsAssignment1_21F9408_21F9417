@@ -83,19 +83,10 @@ jobs:
         run: |
           cd server && npm run lint
 
-      - name: Run SAST for frontend
-        uses: shiftleftsecurity/scan-action@v2
+      - name: Run CodeQL SAST for JavaScript
+        uses: github/codeql-action/analyze@v3
         with:
-          scanType: "sast"
-          language: "javascript"
-          path: "./client"
-
-      - name: Run SAST for backend
-        uses: shiftleftsecurity/scan-action@v2
-        with:
-          scanType: "sast"
-          language: "javascript"
-          path: "./server"
+          languages: javascript
 
   push-to-dockerhub:
     name: Push Containers to DockerHub

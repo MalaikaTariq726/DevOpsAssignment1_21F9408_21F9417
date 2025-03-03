@@ -1,12 +1,12 @@
 #Assignment 1
-# MentorShip Platform - Containerizing and CI/CD
+# Bookshop - Containerizing and CI/CD
 
 ## Prerequisites
 - Ensure you have a Unix-based system (Linux/macOS) with Bash installed.
 - Make sure the required scripts are available in the appropriate directory.
 - Grant execute permission to the scripts using:
   ```
-  chmod +x script1.sh script2.sh
+  chmod +x setup_backend_service.sh health_check.sh log_analysis.sh
   ```
 
 ## Running the First Script
@@ -16,7 +16,7 @@
    ```
 2. Run the script using:
    ```
-   ./script1.sh
+   ./setup_backend_service.sh <absolute_backend_path> <docker_image>
    ```
 3. The script will check the server status and restart if necessary.
 4. Log output will be recorded in the specified log file.
@@ -27,9 +27,10 @@
    ```
    cd /path/to/scripts
    ```
-3. Run the script:
+3. Run the scripts:
    ```
-   ./script2.sh /path/to/logfile.log
+   ./health_check.sh
+   ./log_analysis.sh <path_to_access.log_file>
    ```
 4. The script will process the log file and display a summary report.
 

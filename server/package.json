@@ -7,7 +7,7 @@
   "scripts": {
     "test": "mocha",
     "start": "nodemon index.js",
-    "lint": "eslint ."
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --max-warnings=0"
   },
   "keywords": [],
   "author": "",

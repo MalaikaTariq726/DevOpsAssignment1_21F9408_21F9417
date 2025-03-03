@@ -1,0 +1,115 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-containers:
+    name: Build Containers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and tag frontend image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest -f client/Dockerfile ./client
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
+
+      - name: Build and tag backend image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest -f server/Dockerfile ./server
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
+
+  run-unit-tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    needs: build-containers
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Run frontend unit tests
+        run: |
+          docker build -t frontend-test -f client/Dockerfile ./client
+          docker run frontend-test npm test
+
+      - name: Run backend unit tests
+        run: |
+          docker build -t backend-test -f server/Dockerfile ./server
+          docker run backend-test npm test
+
+  lint-and-sast:
+    name: Lint and SAST
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          cd client && npm install
+          cd ../server && npm install
+
+      - name: Run linter for frontend
+        run: |
+          cd client && npm run lint
+
+      - name: Run linter for backend
+        run: |
+          cd server && npm run lint
+
+      - name: Run SAST for frontend
+        uses: shiftleftsecurity/scan-action@v2
+        with:
+          scanType: "sast"
+          language: "javascript"
+          path: "./client"
+
+      - name: Run SAST for backend
+        uses: shiftleftsecurity/scan-action@v2
+        with:
+          scanType: "sast"
+          language: "javascript"
+          path: "./server"
+
+  push-to-dockerhub:
+    name: Push Containers to DockerHub
+    runs-on: ubuntu-latest
+    needs: [build-containers, run-unit-tests, lint-and-sast]
+    steps:
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push frontend image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
+
+      - name: Push backend image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest

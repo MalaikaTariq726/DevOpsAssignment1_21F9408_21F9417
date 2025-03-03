@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: vite_frontend
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - ./client/node_modules:/app/node_modules # Ensures correct permissions
+    environment:
+      - NODE_ENV=development
+    command: sh -c "npm install && npm run dev"
+
+  backend:
+    container_name: node_backend
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./server:/app
+      - ./server/node_modules:/app/node_modules # Ensures correct permissions
+    environment:
+      - NODE_ENV=development
+      - MONGO_URI=mongodb://mongo:27017/BookStore
+    depends_on:
+      - mongo
+    command: sh -c "npm install && npx nodemon index.js"
+
+
+  mongo:
+    container_name: mongo_db
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

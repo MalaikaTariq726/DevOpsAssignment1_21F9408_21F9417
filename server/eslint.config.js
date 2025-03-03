@@ -1,17 +1,14 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
-import pluginReact from "eslint-plugin-react";
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
-  { files: ["**/*.{js,mjs,cjs,jsx}"] },
+  { files: ["**/*.{js,mjs,cjs}"] }, // No JSX files in the backend
   { languageOptions: { globals: { 
-      ...globals.browser, 
       ...globals.node, 
       ...globals.jest, 
       ...globals.mocha  
     } 
   }},
-  pluginJs.configs.recommended,
-  pluginReact.configs.flat.recommended,
+  pluginJs.configs.recommended
 ];

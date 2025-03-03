@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+import { expect } from 'chai';
 
 describe('Sample backend test', () => {
   it('should pass', () => {

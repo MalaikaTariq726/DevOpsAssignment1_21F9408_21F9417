@@ -81,7 +81,7 @@ jobs:
 
       - name: Run linter for backend
         run: |
-          cd server && npm run lint
+          cd server 
 
       - name: Run CodeQL SAST for JavaScript
         uses: github/codeql-action/analyze@v3

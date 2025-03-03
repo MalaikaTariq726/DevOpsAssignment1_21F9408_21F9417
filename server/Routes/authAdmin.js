@@ -64,6 +64,7 @@ router.post("/verifyToken", (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET);
     return res.status(200).json({ message: "Token is valid", status: true });
   } catch (error) {
+    console.error("Auth error:", error); 
     return res
       .status(202)
       .json({ message: "Token expired or invalid", status: false });

@@ -54,10 +54,10 @@
 ### Running the Application with Docker Compose
 ```bash
 # Start all services
-docker-compose up --build
+docker compose up --build
 
 # Stop all services
-docker-compose down
+docker compose down
 ```
 
 ## CI/CD Pipeline Configuration

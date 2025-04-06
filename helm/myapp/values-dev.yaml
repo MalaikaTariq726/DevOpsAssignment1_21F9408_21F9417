@@ -1,0 +1,14 @@
+# values-dev.yaml
+backend:
+  replicas: 1
+
+client:
+  replicas: 1
+
+mongo:
+  storage: 1Gi
+
+ingress:
+  enabled: true
+  host: dev.myapp.example.com
+  path: "/"

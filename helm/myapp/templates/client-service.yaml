@@ -1,0 +1,11 @@
+# client-service
+apiVersion: v1
+kind: Service
+metadata:
+  name: client
+spec:
+  selector:
+    app: myapp-dev-myapp-client
+  ports:
+    - port: 80
+      targetPort: {{ .Values.client.port }}

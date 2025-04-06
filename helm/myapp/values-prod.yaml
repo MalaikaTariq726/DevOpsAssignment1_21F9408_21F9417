@@ -1,0 +1,14 @@
+# values-prod.yaml
+backend:
+  replicas: 3
+
+client:
+  replicas: 3
+
+mongo:
+  storage: 10Gi
+
+ingress:
+  enabled: true
+  host: myapp.example.com
+  path: "/"

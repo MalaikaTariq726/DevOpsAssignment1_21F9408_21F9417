@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: lab11_bookshop-frontend 
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5173
+          env:
+            - name: NODE_ENV
+              value: development
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5173
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5173
+            initialDelaySeconds: 5
+            periodSeconds: 10

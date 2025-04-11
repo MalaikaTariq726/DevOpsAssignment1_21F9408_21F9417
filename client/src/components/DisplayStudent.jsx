@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../CSS/Display.css"
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 function DisplayStudent() {
   const [students, setStudents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [studentsPerPage] = useState(7);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/authStudent/display")
+    axios.get(`${backendURL}/authStudent/display`)
       .then(response => {
         setStudents(response.data); 
       })

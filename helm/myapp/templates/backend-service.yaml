@@ -4,7 +4,7 @@ metadata:
   name: backend
 spec:
   selector:
-    app: backend
+    app: myapp-backend
   ports:
     - port: 80
       targetPort: {{ .Values.backend.port }}

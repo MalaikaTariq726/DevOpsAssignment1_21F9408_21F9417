@@ -3,6 +3,8 @@ import "../CSS/Signup.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 function AddBook() {
   const [name, setName] = useState("");
   const [ssin, setSsin] = useState("");
@@ -11,7 +13,7 @@ function AddBook() {
 
   const handleSubmit = () => {
     axios
-      .post("http://localhost:3001/authBook/addbook", { name, ssin, author })
+      .post(`${backendURL}/authBook/addbook`, { name, ssin, author })
       .then((response) => {
         console.log(response.data);
         alert("Boom added Successfully!");

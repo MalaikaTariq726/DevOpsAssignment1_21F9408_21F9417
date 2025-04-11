@@ -3,6 +3,8 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import "../CSS/Signup.css";
 import axios from "axios";
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,12 +12,13 @@ function Signup() {
   const navigate = useNavigate();
   const handleSubmit = () => {
     axios
-      .post("http://localhost:3001/authAdmin/signup", { email, password, username })
+      .post(`${backendURL}/authAdmin/signup`, { email, password, username })
       .then((response) => {
         console.log(response.data);
         alert("Signup Successfully!");
         navigate("/login");
       })
+
       .catch((error) => {
         console.error("Error occurred:", error);
         alert("Error occurred: Email must be unique, ", error);

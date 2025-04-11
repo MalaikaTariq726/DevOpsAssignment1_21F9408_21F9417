@@ -14,6 +14,7 @@ client:
   image: alimasood/client:latest
   port: 5173
   replicas: 1
+  backendUrl: http://backend:80
 
 # MongoDB Configuration
 mongo:

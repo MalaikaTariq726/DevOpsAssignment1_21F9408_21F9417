@@ -5,6 +5,8 @@ import "../CSS/Signup.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,9 +18,10 @@ function Login() {
     Cookies.remove("token");
   },[]);
   const handleSubmit = () => {
+    console.log("Backend URL:", backendURL);
     if (role === "admin") {
       axios
-        .post("http://localhost:3001/authAdmin/login", { email, password })
+        .post(`http://backend:80/authAdmin/login`, { email, password })
         .then((response) => {
           console.log(response.data);
           alert("Login Successfully!");
@@ -26,6 +29,7 @@ function Login() {
         })
         .catch((error) => {
           console.error("Error occurred:", error);
+          console.log("Backend URL:", backendURL);
           alert("Error occurred: Incorrect Credentials, ", error);
         });
     } else {

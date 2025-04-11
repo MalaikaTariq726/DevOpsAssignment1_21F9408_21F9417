@@ -6,6 +6,11 @@ dotenv.config();
 const Connection = async () => {
   const mongoURI = process.env.MONGO_URI;
 
+  if (!mongoURI) {
+    console.error('MongoDB URI is missing!');
+    process.exit(1);
+  }
+
   try {
     await mongoose.connect(mongoURI);
 

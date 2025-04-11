@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import "../CSS/Signup.css";
 import axios from "axios";
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 function Signup() {
   const [rollno, setRollno] = useState("");
   const [email, setEmail] = useState("");
@@ -16,7 +18,7 @@ function Signup() {
     console.log("Verifying Token....");
     let response = false;
     await axios
-      .post("http://localhost:3001/authAdmin/verifyToken")
+      .post(`${backendURL}/authAdmin/verifyToken`)
       .then((res) => {
         console.log("Token verification response:", res.data);
         response = res.data.status;
@@ -29,7 +31,7 @@ function Signup() {
 
   function handleSubmit() {
     axios
-      .post("http://localhost:3001/authStudent/addstudent", {
+      .post(`${backendURL}/authStudent/addstudent`, {
         rollno,
         email,
         grade,

@@ -17,3 +17,6 @@ spec:
         image: {{ .Values.client.image }}
         ports:
         - containerPort: {{ .Values.client.port }}
+        env:
+        - name: VITE_BACKEND_URL
+          value: {{ .Values.client.backendUrl | quote }}

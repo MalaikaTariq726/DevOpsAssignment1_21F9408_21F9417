@@ -5,6 +5,9 @@ backend:
   image: alimasood/backend:latest
   port: 3001
   replicas: 1
+  versions:
+    - version: v1
+    - version: v2
 
 # Client Configuration
 client:

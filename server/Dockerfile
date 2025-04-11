@@ -28,10 +28,13 @@ RUN npm install --production
 # Copy the application code from the builder stage
 COPY --from=builder /app ./
 
-# Install nodemon globally for development usage
+# Install nodemon globally for development usage (optional, for development only)
 RUN npm install -g nodemon
 
-# Run as a non-root user
+# Install MongoDB driver if not present in package.json
+RUN npm install mongoose --production
+
+# Create a non-root user to run the application
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 # Change ownership of the /app directory to the non-root user

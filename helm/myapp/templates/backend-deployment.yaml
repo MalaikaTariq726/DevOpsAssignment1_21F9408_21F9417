@@ -1,18 +1,50 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "myapp.fullname" . }}-backend
+  name: {{ include "myapp.fullname" . }}-backend-v1
   labels:
     {{- include "myapp.labels" . | nindent 4 }}
+  annotations:
+    sidecar.istio.io/inject: "true"
 spec:
   replicas: {{ .Values.backend.replicas }}
   selector:
     matchLabels:
       app: {{ include "myapp.name" . }}-backend
+      version: v1
   template:
     metadata:
       labels:
         app: {{ include "myapp.name" . }}-backend
+        version: v1
+    spec:
+      containers:
+        - name: backend
+          image: "{{ .Values.backend.image }}"
+          ports:
+            - containerPort: {{ .Values.backend.port }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "myapp.fullname" . }}-backend-v2
+  labels:
+    {{- include "myapp.labels" . | nindent 4 }}
+  annotations:
+    sidecar.istio.io/inject: "true"
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "myapp.name" . }}-backend
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: {{ include "myapp.name" . }}-backend
+        version: v2
     spec:
       containers:
         - name: backend

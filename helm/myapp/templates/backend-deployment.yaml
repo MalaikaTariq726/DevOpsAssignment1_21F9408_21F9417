@@ -1,10 +1,10 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "myapp.fullname" . }}-backend-v1
   labels:
     {{- include "myapp.labels" . | nindent 4 }}
+    app.kubernetes.io/version: "v1"  # Hardcoded version label
   annotations:
     sidecar.istio.io/inject: "true"
 spec:
@@ -12,12 +12,12 @@ spec:
   selector:
     matchLabels:
       app: {{ include "myapp.name" . }}-backend
-      version: v1
+      version: v1  # Hardcoded version in selector
   template:
     metadata:
       labels:
         app: {{ include "myapp.name" . }}-backend
-        version: v1
+        version: v1  # Hardcoded version in label
     spec:
       containers:
         - name: backend
@@ -32,6 +32,7 @@ metadata:
   name: {{ include "myapp.fullname" . }}-backend-v2
   labels:
     {{- include "myapp.labels" . | nindent 4 }}
+    app.kubernetes.io/version: "v2"  # Hardcoded version label
   annotations:
     sidecar.istio.io/inject: "true"
 spec:
@@ -39,12 +40,12 @@ spec:
   selector:
     matchLabels:
       app: {{ include "myapp.name" . }}-backend
-      version: v2
+      version: v2  # Hardcoded version in selector
   template:
     metadata:
       labels:
         app: {{ include "myapp.name" . }}-backend
-        version: v2
+        version: v2  # Hardcoded version in label
     spec:
       containers:
         - name: backend

@@ -1,6 +1,6 @@
 # values-dev.yaml
 backend:
-  replicas: 1
+  replicas: 2
 
 client:
   replicas: 1
